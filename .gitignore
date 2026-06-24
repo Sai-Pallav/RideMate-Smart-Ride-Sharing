@@ -1,0 +1,49 @@
+# Dependency directories
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Build outputs
+frontend/dist/
+frontend/dist-ssr/
+dist/
+
+# Environment variables
+.env
+.env.*
+.env.local
+backend/.env
+frontend/.env
+frontend/.env.*
+
+# Local data / DB
+mysql_data/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor directories and files
+.vscode/
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Agent / Scratch files
+scratch/
+task.md
+walkthrough.md
+implementation_plan.md
+eslint_report.txt
+eslint_report_utf8.txt
+frontend/eslint_report.txt
+frontend/eslint_report_utf8.txt
+.agents/

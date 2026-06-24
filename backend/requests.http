@@ -1,0 +1,419 @@
+### Ride Sharing Platform API Requests Example (REST Client format)
+# Use this file to test the routes manually using VS Code's REST Client extension,
+# or import them into Postman.
+# Note: Host port is set to 5000 by default.
+
+@host = http://localhost:5000
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.placeholder.token_here
+@userEmail = sai.pallav@institution.edu
+@userPhone = +15550199
+
+###
+# =========================================================================
+# 1. AUTH SERVICE ENDPOINTS (FR-1)
+# =========================================================================
+
+# @name registerUser
+POST {{host}}/api/auth/register
+Content-Type: application/json
+
+{
+  "phone_number": "{{userPhone}}",
+  "email": "{{userEmail}}",
+  "password": "SecurePassword123!",
+  "full_name": "Sai Pallav"
+}
+
+###
+
+# @name verifyOtp
+POST {{host}}/api/auth/verify-otp
+Content-Type: application/json
+
+{
+  "phone_number": "{{userPhone}}",
+  "otp": "123456"
+}
+
+###
+
+# @name verifyEmail
+GET {{host}}/api/auth/verify-email?email={{userEmail}}
+
+###
+
+# @name loginUser
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "identifier": "{{userPhone}}",
+  "password": "SecurePassword123!"
+}
+
+###
+
+# @name triggerRecovery
+POST {{host}}/api/auth/recover
+Content-Type: application/json
+
+{
+  "phone_number": "{{userPhone}}"
+}
+
+###
+
+# @name resetPassword
+POST {{host}}/api/auth/reset-password
+Content-Type: application/json
+
+{
+  "phone_number": "{{userPhone}}",
+  "otp": "123456",
+  "new_password": "NewSecurePassword456!"
+}
+
+###
+
+# @name authHealth
+GET {{host}}/api/auth/health
+
+
+###
+# =========================================================================
+# 2. PROFILE & VEHICLE SERVICE ENDPOINTS (FR-2 & FR-3)
+# =========================================================================
+
+# @name getOwnProfile
+GET {{host}}/api/profile/me
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name updateProfile
+PUT {{host}}/api/profile/me
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "full_name": "Sai Pallav Edited",
+  "bio": "Experienced driver helping reduce carbon emissions.",
+  "gender": "male",
+  "institution_name": "Campus Tech University",
+  "institution_domain": "institution.edu"
+}
+
+###
+
+# @name requestInstitutionalVerification
+POST {{host}}/api/profile/verify-institution
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "email": "sai.pallav@institution.edu"
+}
+
+###
+
+# @name confirmInstitutionalVerification
+POST {{host}}/api/profile/verify-institution/confirm
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "email": "sai.pallav@institution.edu",
+  "code": "123456"
+}
+
+###
+
+# @name getPublicProfile
+GET {{host}}/api/profile/1
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name registerVehicle
+POST {{host}}/api/profile/vehicles
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "vehicle_type": "car",
+  "make": "Toyota",
+  "model": "Prius",
+  "registration_number": "ABC-123-XYZ",
+  "color": "Silver",
+  "is_active": true
+}
+
+###
+
+# @name listVehicles
+GET {{host}}/api/profile/vehicles
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name updateVehicle
+PUT {{host}}/api/profile/vehicles/1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "color": "Dark Grey",
+  "is_active": true
+}
+
+###
+
+# @name deleteVehicle
+DELETE {{host}}/api/profile/vehicles/1
+Authorization: Bearer {{authToken}}
+
+
+###
+# =========================================================================
+# 3. RIDE MANAGEMENT SERVICE ENDPOINTS (FR-4)
+# =========================================================================
+
+# @name createRide
+POST {{host}}/api/rides
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "source_label": "Campus Main Gate",
+  "source_location": {
+    "latitude": 37.77490000,
+    "longitude": -122.41940000
+  },
+  "destination_label": "Downtown Station",
+  "destination_location": {
+    "latitude": 37.78910000,
+    "longitude": -122.40140000
+  },
+  "ride_date": "2026-06-25",
+  "departure_time": "08:30:00",
+  "total_seats": 3,
+  "estimated_distance_km": 5.20,
+  "estimated_total_cost": 12.00,
+  "polyline": "_p~iF~ps|U_ulLnnqC_ga|F_kBxxpA",
+  "preferences": {
+    "gender_preference": "none",
+    "no_smoking": true,
+    "luggage_allowed": true
+  },
+  "stops": [
+    {
+      "sequence_order": 1,
+      "stop_label": "Campus North Library",
+      "location": {
+        "latitude": 37.77900000,
+        "longitude": -122.41200000
+      },
+      "distance_from_source_km": 1.20
+    },
+    {
+      "sequence_order": 2,
+      "stop_label": "Science Complex",
+      "location": {
+        "latitude": 37.78300000,
+        "longitude": -122.40800000
+      },
+      "distance_from_source_km": 2.80
+    }
+  ]
+}
+
+###
+
+# @name getRideDetails
+GET {{host}}/api/rides/1
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name editRideNoPassengers
+PUT {{host}}/api/rides/1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "departure_time": "09:00:00",
+  "total_seats": 4
+}
+
+###
+
+# @name editRideWithPassengers
+# Set confirm_affected_passengers to true if there are confirmed bookings to bypass the protection block
+PUT {{host}}/api/rides/1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "departure_time": "09:15:00",
+  "confirm_affected_passengers": true
+}
+
+###
+
+# @name cancelRide
+DELETE {{host}}/api/rides/1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "confirm_affected_passengers": true
+}
+
+###
+
+# @name createRecurringRideTemplate
+POST {{host}}/api/rides/templates
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "source_label": "Campus Main Gate",
+  "source_location": {
+    "latitude": 37.77490000,
+    "longitude": -122.41940000
+  },
+  "destination_label": "Downtown Station",
+  "destination_location": {
+    "latitude": 37.78910000,
+    "longitude": -122.40140000
+  },
+  "departure_time": "08:30:00",
+  "total_seats": 3,
+  "estimated_distance_km": 5.20,
+  "estimated_total_cost": 12.00,
+  "recurrence_pattern": "weekdays",
+  "start_date": "2026-06-21",
+  "end_date": "2026-06-30",
+  "polyline": "_p~iF~ps|U_ulLnnqC_ga|F_kBxxpA",
+  "preferences": {
+    "gender_preference": "none",
+    "no_smoking": true,
+    "luggage_allowed": true
+  },
+  "stops": [
+    {
+      "sequence_order": 1,
+      "stop_label": "Campus North Library",
+      "location": {
+        "latitude": 37.77900000,
+        "longitude": -122.41200000
+      },
+      "distance_from_source_km": 1.20
+    }
+  ]
+}
+
+###
+
+# @name rideHealth
+GET {{host}}/api/rides/health
+
+###
+# =========================================================================
+# 4. MATCHING ENGINE ENDPOINTS (FR-5)
+# =========================================================================
+
+# @name searchMatches
+POST {{host}}/api/matching/search
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "pickup_location": {
+    "latitude": 37.77490000,
+    "longitude": -122.41940000
+  },
+  "drop_location": {
+    "latitude": 37.78910000,
+    "longitude": -122.40140000
+  },
+  "ride_date": "2026-06-25",
+  "preferred_time": "08:30:00",
+  "time_window_hours": 2.0
+}
+
+###
+
+# @name matchingHealth
+GET {{host}}/api/matching/health
+
+###
+# =========================================================================
+# 5. BOOKING & LIFE CYCLE ENDPOINTS (FR-6, FR-7, FR-8)
+# =========================================================================
+
+# @name createBookingRequest
+POST {{host}}/api/bookings
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "ride_id": 1,
+  "pickup_label": "Campus Main Gate",
+  "pickup_location": {
+    "latitude": 37.77490000,
+    "longitude": -122.41940000
+  },
+  "drop_label": "Science Complex",
+  "drop_location": {
+    "latitude": 37.78300000,
+    "longitude": -122.40800000
+  }
+}
+
+###
+
+# @name acceptBooking
+PUT {{host}}/api/bookings/1/accept
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name declineBooking
+PUT {{host}}/api/bookings/1/decline
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name cancelBooking
+PUT {{host}}/api/bookings/1/cancel
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name passengerConfirmComplete
+PUT {{host}}/api/bookings/1/confirm-complete
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name driverMarkNoShow
+POST {{host}}/api/bookings/1/no-show
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name driverStartRide
+PUT {{host}}/api/rides/1/start
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name driverCompleteRide
+PUT {{host}}/api/rides/1/complete
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name bookingHealth
+GET {{host}}/api/bookings/health

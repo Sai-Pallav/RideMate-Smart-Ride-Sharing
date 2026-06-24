@@ -1,0 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  /* Brand color system (Indigo accent) */
+  --color-brand-primary: #6366f1;
+  --color-brand-primary-hover: #4f46e5;
+  --color-brand-primary-light: #818cf8;
+  
+  /* Background layers (Base near-black, elevated card, overlay/modals) */
+  --color-brand-bg-base: #090a0f;
+  --color-brand-bg-card: #12141c;
+  --color-brand-bg-overlay: #1a1c26;
+  
+  /* Text states */
+  --color-brand-text-primary: #f8fafc;
+  --color-brand-text-secondary: #94a3b8;
+  --color-brand-text-muted: #475569;
+  
+  /* Semantic safety-critical color */
+  --color-brand-safety: #f43f5e;
+  --color-brand-safety-hover: #e11d48;
+  
+  /* Typography fonts */
+  --font-sans: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  
+  /* Shadows & elevations */
+  --shadow-brand-glow: 0 0 15px rgba(99, 102, 241, 0.15);
+  --shadow-brand-sos: 0 0 20px rgba(244, 63, 94, 0.35);
+}
+
+:root {
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: dark;
+  background-color: var(--color-brand-bg-base);
+  color: var(--color-brand-text-primary);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--color-brand-bg-base);
+}
+
+#root {
+  width: 100%;
+}
