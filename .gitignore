@@ -47,3 +47,6 @@ eslint_report_utf8.txt
 frontend/eslint_report.txt
 frontend/eslint_report_utf8.txt
 .agents/
+
+# Documentation (Excluded as requested)
+ride-sharing/
